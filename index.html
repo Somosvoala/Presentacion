@@ -6,10 +6,9 @@
     <title>Voalá App 1.0 - Presentación del Proyecto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Chosen Palette: Deep Dark Violet & Amber (Voalá Premium Theme) -->
-    <!-- Application Structure Plan: Added explicit Next/Prev buttons at the bottom of each section to create a guided, linear presentation flow, augmenting the existing sidebar navigation. -->
     
     <style>
         body {
@@ -84,14 +83,30 @@
             transition: opacity 0.3s ease-in-out;
         }
 
-        /* Botones de navegación inferior */
-        .btn-nav {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        /* Highlight card animation for expansion section */
+        .premium-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
         }
-        .btn-nav:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        .premium-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Beneficios List Styles */
+        .benefit-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.7rem;
+            color: #CBD5E1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .benefit-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
         }
     </style>
 </head>
@@ -100,9 +115,9 @@
     <!-- Mobile Header -->
     <header class="md:hidden glass-panel fixed top-0 w-full z-40 flex items-center justify-between p-4 border-b border-[#2E2B3D]">
         <h1 class="outfit text-2xl font-extrabold text-white tracking-tight">Voalá<span class="text-amber-500">.</span></h1>
-        <button id="menu-btn" class="text-white hover:text-purple-400 focus:outline-none flex items-center gap-2 bg-purple-600/20 px-4 py-2 rounded-lg" onclick="toggleMenu()">
-            <span class="text-sm font-bold uppercase">Menú</span>
-            <i class="fa-solid fa-bars text-xl"></i>
+        <!-- Botón de hamburguesa limpio y simple -->
+        <button id="menu-btn" class="text-white hover:text-purple-400 focus:outline-none p-2 transition-colors" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars text-3xl"></i>
         </button>
     </header>
 
@@ -125,16 +140,19 @@
             <p class="text-xs text-gray-500 font-bold tracking-widest uppercase mb-4 px-4">Recorrido de la App</p>
             
             <button onclick="navigate('vision')" id="btn-vision" class="nav-item nav-active w-full flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 text-left">
-                <span class="text-xl">🌟</span> <span class="text-sm">El Propósito Real</span>
+                <span class="text-xl w-6 text-center"><i class="fa-solid fa-star"></i></span> <span class="text-sm">El Propósito Real</span>
             </button>
             <button onclick="navigate('seguridad')" id="btn-seguridad" class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 text-left">
-                <span class="text-xl">🔒</span> <span class="text-sm">Privacidad y Control</span>
+                <span class="text-xl w-6 text-center"><i class="fa-solid fa-shield-halved"></i></span> <span class="text-sm">Privacidad y Control</span>
             </button>
             <button onclick="navigate('modulos')" id="btn-modulos" class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 text-left">
-                <span class="text-xl">📱</span> <span class="text-sm">Explorar la App (Fotos)</span>
+                <span class="text-xl w-6 text-center"><i class="fa-solid fa-mobile-screen"></i></span> <span class="text-sm">Explorar la App</span>
             </button>
             <button onclick="navigate('crecimiento')" id="btn-crecimiento" class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 text-left">
-                <span class="text-xl">🚀</span> <span class="text-sm">Herramientas para Crecer</span>
+                <span class="text-xl w-6 text-center"><i class="fa-solid fa-chart-line"></i></span> <span class="text-sm">Inteligencia y Datos</span>
+            </button>
+            <button onclick="navigate('expansion')" id="btn-expansion" class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 text-left">
+                <span class="text-xl w-6 text-center"><i class="fa-solid fa-rocket"></i></span> <span class="text-sm">Ecosistema Extendido</span>
             </button>
         </nav>
 
@@ -161,40 +179,41 @@
             =========================================== -->
             <section id="sec-vision" class="fade-in block">
                 <header class="mb-8 md:mb-10 text-center">
-                    <span class="text-amber-500 text-xs font-bold tracking-[0.2em] bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">PASO 1 DE 4: LO QUE ESTAMOS CREANDO</span>
-                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-4 md:mt-6 outfit leading-tight">Más que una agenda,<br class="hidden md:block"> el socio de tu negocio</h2>
+                    <span class="text-amber-500 text-xs font-bold tracking-[0.2em] bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">PASO 1 DE 5: LO QUE ESTAMOS CREANDO</span>
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-4 md:mt-6 outfit leading-tight">Más que una agenda,<br class="hidden md:block"> el socio integral de tu negocio</h2>
                     <p class="text-gray-400 mt-4 md:mt-6 text-base md:text-xl max-w-3xl mx-auto leading-relaxed">
-                        Nuestra meta es sencilla: tomar a dueñas de salones que hoy viven abrumadas por el papel, los mensajes de WhatsApp y el desorden, y darles una herramienta única que administre su local, les enseñe cómo vender más y les surta de productos automáticamente.
+                        Voalá no nace para “llevar citas”. Nace para resolver el verdadero problema de miles de dueñas de salón:
+                        <strong>trabajar todo el día… y aun así sentir que no hay control.</strong><br><br>
+                        Hoy, muchas manejan su negocio entre libretas, WhatsApp, notas sueltas y cobros manuales. Eso no solo desgasta:
+                        también provoca errores, pérdidas, falta de seguimiento y limita el crecimiento.<br><br>
+                        Nuestra visión es clara: convertir a cada salón en una operación ordenada, rentable y lista para escalar, con una sola app
+                        que administra, educa, impulsa ventas y abre oportunidades de financiamiento.
                     </p>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10 mt-8 md:mt-16">
                     <div class="glass-panel p-6 md:p-8 rounded-2xl flex flex-col justify-center">
-                        <h3 class="text-xl md:text-2xl font-semibold text-purple-300 mb-4 outfit">Todo en un solo lugar</h3>
+                        <h3 class="text-xl md:text-2xl font-semibold text-purple-300 mb-4 outfit">El Ecosistema Unificado</h3>
                         <p class="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                            Imagina tener el control total de las citas, saber cuánto dinero entró en el día, aprender nuevas técnicas de corte y pedir tus productos oficiales a Voalá central... <strong>todo desde la misma aplicación en tu celular o computadora.</strong>
+                            Imagina abrir Voalá y tener, en un solo lugar, lo que hoy te obliga a usar 4 o 5 herramientas distintas:
+                            agenda, caja, inventario, clientes, capacitaciones y hasta oportunidades para crecer.<br><br>
+                            <strong>La idea es simple:</strong> que tu negocio no dependa de “acordarte” de todo.
+                            Que dependa de un sistema que te guía, te muestra números claros y te ayuda a tomar mejores decisiones.
                         </p>
                         <ul class="space-y-3 md:space-y-4 text-gray-300 text-sm md:text-base">
-                            <li class="flex gap-3"><span class="text-amber-400">✔️</span> Adiós a las libretas perdidas.</li>
-                            <li class="flex gap-3"><span class="text-purple-400">✔️</span> Adiós a calcular comisiones a mano.</li>
-                            <li class="flex gap-3"><span class="text-emerald-400">✔️</span> Adiós a quedarte sin inventario por sorpresa.</li>
+                            <li class="flex gap-3 items-center"><i class="fa-solid fa-check text-amber-400"></i> Todo conectado: citas, cobros, clientes e inventario.</li>
+                            <li class="flex gap-3 items-center"><i class="fa-solid fa-check text-purple-400"></i> Menos caos operativo y menos errores humanos.</li>
+                            <li class="flex gap-3 items-center"><i class="fa-solid fa-check text-emerald-400"></i> Crecimiento real con datos, educación y herramientas financieras.</li>
                         </ul>
                     </div>
 
                     <!-- Chart Container -->
                     <div class="glass-panel p-6 md:p-8 rounded-2xl flex flex-col items-center">
-                        <h3 class="text-lg font-semibold text-white mb-4 outfit text-center">Todo lo que ofrece Voalá a la dueña</h3>
+                        <h3 class="text-lg font-semibold text-white mb-4 outfit text-center">Los Pilares del Ecosistema Voalá</h3>
                         <div class="chart-container flex-1 w-full flex items-center justify-center border-none bg-transparent p-0">
                             <canvas id="ecoChart"></canvas>
                         </div>
                     </div>
-                </div>
-
-                <!-- BOTTOM NAVIGATION -->
-                <div class="mt-16 pt-8 border-t border-[#2E2B3D] flex justify-end">
-                    <button onclick="navigate('seguridad')" class="btn-nav bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 px-8 rounded-full flex items-center gap-3 text-lg">
-                        Siguiente: Privacidad y Control <i class="fa-solid fa-arrow-right"></i>
-                    </button>
                 </div>
             </section>
 
@@ -203,44 +222,56 @@
             =========================================== -->
             <section id="sec-seguridad" class="fade-in hidden">
                 <header class="mb-8 md:mb-10 text-center">
-                    <span class="text-emerald-500 text-xs font-bold tracking-[0.2em] bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">PASO 2 DE 4: PRIVACIDAD GARANTIZADA</span>
+                    <span class="text-emerald-500 text-xs font-bold tracking-[0.2em] bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">PASO 2 DE 5: PRIVACIDAD GARANTIZADA</span>
                     <h2 class="text-3xl md:text-5xl font-bold text-white mt-4 md:mt-6 outfit leading-tight">Tus datos son solo tuyos</h2>
                     <p class="text-gray-400 mt-4 md:mt-6 text-base md:text-xl max-w-3xl mx-auto leading-relaxed">
-                        Sabemos que la información de tus clientes y tus ganancias es sagrada. Hemos diseñado la app para que cada tipo de persona vea solo lo que tiene que ver, evitando que los empleados conozcan los secretos financieros del dueño.
+                        En un salón, la información no es “un detalle”: es el corazón del negocio. Tus ventas, tus precios de compra,
+                        tus clientes y tu rentabilidad deben estar protegidos.<br><br>
+                        Por eso, Voalá trabaja con perfiles y permisos inteligentes: cada persona ve únicamente lo que necesita para hacer su trabajo,
+                        sin acceso a información sensible ni a la operación completa.
                     </p>
                 </header>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mt-8 md:mt-12">
                     <div class="glass-panel p-6 md:p-8 rounded-2xl border-l-4 border-[#F59E0B]">
-                        <div class="text-3xl md:text-4xl mb-4">👑</div>
+                        <div class="text-3xl md:text-4xl mb-4 text-amber-500"><i class="fa-solid fa-crown"></i></div>
                         <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">La Dueña (Control Total)</h3>
-                        <p class="text-gray-400 text-sm md:text-base">Eres la jefa. Ves el dinero que entra, cuánto te cuestan los productos realmente, configuras los horarios de todos y decides quién puede borrar citas o aplicar descuentos. Tu salón, tus reglas.</p>
+                        <p class="text-gray-400 text-sm md:text-base">
+                            Eres quien dirige el negocio. Ves ventas globales, utilidades, costos reales, inventario completo, reportes y configuración general.
+                            Decides quién puede dar descuentos, quién puede editar servicios y quién solo atiende su agenda.
+                            <strong>Tu salón, tus reglas, tu información protegida.</strong>
+                        </p>
                     </div>
-                    <div class="glass-panel p-6 md:p-8 rounded-2xl border-l-4 border-[#8B5CF6]">
-                        <div class="text-3xl md:text-4xl mb-4">✂️</div>
-                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">El Empleado (Enfoque en su trabajo)</h3>
-                        <p class="text-gray-400 text-sm md:text-base">Tus estilistas y barberos tienen su propia cuenta. Solo pueden ver los clientes que les tocan hoy y la comisión que ganaron. <strong>No pueden ver cuánto gana el salón ni cuánto ganan sus compañeros.</strong></p>
-                    </div>
-                    <div class="glass-panel p-6 md:p-8 rounded-2xl border-l-4 border-[#10B981]">
-                        <div class="text-3xl md:text-4xl mb-4">📱</div>
-                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">El Cliente (Comodidad)</h3>
-                        <p class="text-gray-400 text-sm md:text-base">Desde su teléfono, el cliente entra a tu enlace, ve tus servicios con fotos bonitas, elige a su profesional favorito y reserva en 3 clics. Recibe un recordatorio para que no te falte.</p>
-                    </div>
-                    <div class="glass-panel p-6 md:p-8 rounded-2xl border-l-4 border-[#EF4444]">
-                        <div class="text-3xl md:text-4xl mb-4">🏢</div>
-                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">Soporte Voalá Central</h3>
-                        <p class="text-gray-400 text-sm md:text-base">El equipo central de Voalá se encarga de que la app nunca se caiga, aprueba nuevos salones y te envía invitaciones a eventos o nuevos cursos de la academia directamente a tu pantalla.</p>
-                    </div>
-                </div>
 
-                <!-- BOTTOM NAVIGATION -->
-                <div class="mt-16 pt-8 border-t border-[#2E2B3D] flex flex-col sm:flex-row justify-between gap-4">
-                    <button onclick="navigate('vision')" class="btn-nav bg-[#1E1B2E] hover:bg-[#2E2B3D] border border-[#3E3B4D] text-white font-bold py-4 px-8 rounded-full flex items-center justify-center gap-3 text-lg">
-                        <i class="fa-solid fa-arrow-left"></i> Anterior
-                    </button>
-                    <button onclick="navigate('modulos')" class="btn-nav bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 px-8 rounded-full flex items-center justify-center gap-3 text-lg">
-                        Siguiente: Explorar la App <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                    <div class="glass-panel p-6 md:p-8 rounded-2xl border-l-4 border-[#8B5CF6]">
+                        <div class="text-3xl md:text-4xl mb-4 text-purple-400"><i class="fa-solid fa-scissors"></i></div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">El Empleado (Enfoque total)</h3>
+                        <p class="text-gray-400 text-sm md:text-base">
+                            Cada profesional entra con su cuenta. Ve su agenda, sus clientes asignados y sus comisiones.
+                            Puede trabajar rápido sin distraerse con números globales.
+                            <strong>No tiene acceso a ganancias totales, costos ni reportes del negocio.</strong>
+                        </p>
+                    </div>
+
+                    <div class="glass-panel p-6 md:p-8 rounded-2xl border-l-4 border-[#10B981]">
+                        <div class="text-3xl md:text-4xl mb-4 text-emerald-400"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">El Cliente (Comodidad)</h3>
+                        <p class="text-gray-400 text-sm md:text-base">
+                            El cliente reserva fácil: elige servicio, profesional, hora y confirma. Recibe recordatorios automáticos,
+                            puede reprogramar bajo tus reglas y mantiene su historial.
+                            <strong>Más orden para ti, más confianza para ellos.</strong>
+                        </p>
+                    </div>
+
+                    <div class="glass-panel p-6 md:p-8 rounded-2xl border-l-4 border-[#EF4444]">
+                        <div class="text-3xl md:text-4xl mb-4 text-red-400"><i class="fa-regular fa-building"></i></div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">Soporte Voalá Central</h3>
+                        <p class="text-gray-400 text-sm md:text-base">
+                            Nuestro equipo asegura estabilidad, actualizaciones y acompañamiento. Ayudamos a implementar,
+                            resolver dudas y activar módulos (cursos, créditos, eventos) según tu avance.
+                            Siempre con controles internos para cuidar tu operación.
+                        </p>
+                    </div>
                 </div>
             </section>
 
@@ -249,21 +280,28 @@
             =========================================== -->
             <section id="sec-modulos" class="fade-in hidden">
                 <header class="mb-8 md:mb-12 text-center">
-                    <span class="text-purple-400 text-xs font-bold tracking-[0.2em] bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">PASO 3 DE 4: EL CORAZÓN DE TU SALÓN</span>
-                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-4 md:mt-6 outfit leading-tight">Así se ve la plataforma por dentro</h2>
+                    <span class="text-purple-400 text-xs font-bold tracking-[0.2em] bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">PASO 3 DE 5: EL NÚCLEO DE GESTIÓN</span>
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-4 md:mt-6 outfit leading-tight">Así se ve tu negocio por dentro</h2>
                     <p class="text-gray-400 mt-4 md:mt-6 text-base md:text-xl max-w-3xl mx-auto leading-relaxed">
-                        Olvídate de sistemas enredados. Hemos diseñado cada pantalla pensando en la velocidad y facilidad de uso que requiere el mostrador de un salón de belleza lleno de gente.
+                        Cada pantalla fue pensada para el ritmo real de un salón: clientes entrando, llamadas, WhatsApp, cobros,
+                        cambios de horario y mil cosas pasando a la vez.<br><br>
+                        Aquí no hay menús enredados. Hay claridad, velocidad y control.
                     </p>
                 </header>
 
                 <div class="space-y-8 md:space-y-12">
-                    
+
                     <!-- 1. Dashboard -->
                     <div class="module-card">
                         <img src="https://somosvoala.com/wp-content/uploads/2026/02/7d2403d1-6015-4cb5-81d8-3b1852dc62e3.png" alt="Dashboard" class="w-full h-[250px] md:h-[400px] object-cover object-top border-b border-[#2E2B3D]">
                         <div class="p-5 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">📊 Dashboard: Tu Resumen del Día</h3>
-                            <p class="text-gray-400 text-sm md:text-base mb-4">Nada más abrir la app, sabes cómo está la salud de tu negocio. Te muestra el dinero exacto que ha ingresado hoy, cuántas citas se han completado y qué profesional está generando más ventas. <br><br><strong>El beneficio:</strong> Tomas el control al instante. Dejas de adivinar si hoy fue un "buen día" y lo ves reflejado en números claros y gráficos amigables.</p>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit"><i class="fa-solid fa-chart-pie text-purple-400 mr-2"></i> Dashboard: Tu control en segundos</h3>
+                            <p class="text-gray-400 text-sm md:text-base mb-4">
+                                Al abrir la app, lo entiendes todo: ventas del día, citas completadas, rendimiento por profesional y alertas clave.
+                                <br><br>
+                                <strong>El beneficio:</strong> dejas de “sentir” si fue buen día. Lo confirmas con datos y tomas decisiones más rápidas:
+                                reforzar un turno, impulsar un servicio, o corregir algo antes de que se convierta en pérdida.
+                            </p>
                         </div>
                     </div>
 
@@ -271,8 +309,14 @@
                     <div class="module-card">
                         <img src="https://somosvoala.com/wp-content/uploads/2026/02/039ec27c-01bf-491a-93d9-a05ee1c4708a.png" alt="Bandeja" class="w-full h-[250px] md:h-[400px] object-cover object-top border-b border-[#2E2B3D]">
                         <div class="p-5 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">📥 Bandeja: Que nada se te escape</h3>
-                            <p class="text-gray-400 text-sm md:text-base mb-4">¿Alguien pidió cita por internet? ¿Se acabó la cera para el cabello? ¿Una venta quedó sin cobrarse? Todo lo urgente aterriza aquí, ordenado por importancia. <br><br><strong>El beneficio:</strong> Te quita el estrés de recordar todo. La app te avisa qué tienes que aprobar o solucionar, y con un solo clic lo resuelves sin tener que andar buscando por todo el sistema.</p>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit"><i class="fa-solid fa-inbox text-purple-400 mr-2"></i> Bandeja: Nada se te pasa</h3>
+                            <p class="text-gray-400 text-sm md:text-base mb-4">
+                                Aquí llega lo importante: citas por aprobar, tareas pendientes, alertas de inventario y ventas que requieren revisión.
+                                Todo ordenado por prioridad.
+                                <br><br>
+                                <strong>El beneficio:</strong> reduces el estrés mental. La app te dice “qué sigue” y te permite resolverlo en un clic,
+                                sin buscar entre mensajes o notas.
+                            </p>
                         </div>
                     </div>
 
@@ -281,15 +325,22 @@
                         <div class="module-card">
                             <img src="https://somosvoala.com/wp-content/uploads/2026/02/cb8144cf-e452-411b-b76b-cd06701fad02.png" alt="Reservas" class="w-full h-[200px] md:h-[300px] object-cover object-top border-b border-[#2E2B3D]">
                             <div class="p-5 md:p-6">
-                                <h3 class="text-lg md:text-xl font-bold text-white mb-2 outfit">📅 Lista de Reservas</h3>
-                                <p class="text-gray-400 text-sm">Visualiza quién viene, a qué hora y a qué servicio. Cambia el estado de "Pendiente" a "Completada" para mantener el orden.</p>
+                                <h3 class="text-lg md:text-xl font-bold text-white mb-2 outfit"><i class="fa-regular fa-calendar-check text-purple-400 mr-2"></i> Lista de Reservas</h3>
+                                <p class="text-gray-400 text-sm">
+                                    Una vista clara de quién viene, a qué hora, con qué profesional y qué servicio.
+                                    Confirma, reprograma o marca como completada para mantener el orden del día.
+                                </p>
                             </div>
                         </div>
+
                         <div class="module-card">
                             <img src="https://somosvoala.com/wp-content/uploads/2026/02/6b0cdd74-2117-425d-a7cc-5b049e19b64f.png" alt="Calendario" class="w-full h-[200px] md:h-[300px] object-cover object-top border-b border-[#2E2B3D]">
                             <div class="p-5 md:p-6">
-                                <h3 class="text-lg md:text-xl font-bold text-white mb-2 outfit">📆 Calendario Visual</h3>
-                                <p class="text-gray-400 text-sm">¿Tu cliente se atrasó? Arrastra su cajita de color a la siguiente hora. Ve los espacios muertos fácilmente para meter a los que llegan sin cita.</p>
+                                <h3 class="text-lg md:text-xl font-bold text-white mb-2 outfit"><i class="fa-regular fa-calendar-days text-purple-400 mr-2"></i> Calendario Visual</h3>
+                                <p class="text-gray-400 text-sm">
+                                    Mira el día como un tablero: huecos, cargas por profesional y movimiento de citas.
+                                    Ajusta horarios de forma visual para aprovechar espacios y reducir tiempos muertos.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -299,8 +350,13 @@
                         <div class="grid grid-cols-1 lg:grid-cols-2">
                             <img src="https://somosvoala.com/wp-content/uploads/2026/02/ec519a45-f58b-4cda-9dfa-0854e25deee2.png" alt="Clientes" class="w-full h-[250px] lg:h-full object-cover lg:border-r border-b lg:border-b-0 border-[#2E2B3D]">
                             <div class="p-5 md:p-8 flex flex-col justify-center">
-                                <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">👥 Clientes: Trátalos como reyes</h3>
-                                <p class="text-gray-400 text-sm md:text-base mb-4">Deja de usar la libreta de contactos de tu celular. Crea un perfil para cada cliente donde se guarda cuántas veces ha venido, qué servicios ama, su cumpleaños y cuánto dinero ha dejado en el salón. <br><br><strong>El beneficio:</strong> Hace sentir especiales a tus clientes porque recuerdas todo sobre ellos, y te ayuda a saber a quiénes debes consentir más porque son tus mejores compradores.</p>
+                                <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit"><i class="fa-solid fa-users text-purple-400 mr-2"></i> CRM de Clientes: Atención tipo VIP</h3>
+                                <p class="text-gray-400 text-sm md:text-base mb-4">
+                                    Crea un perfil por cliente: historial, frecuencia, preferencias, servicios favoritos y cuánto invierte contigo.
+                                    <br><br>
+                                    <strong>El beneficio:</strong> sabes a quién cuidar, a quién reactivar y cómo personalizar la atención.
+                                    Esto aumenta retención y eleva el ticket promedio sin “inventar promociones”.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -308,8 +364,13 @@
                     <div class="module-card">
                         <div class="grid grid-cols-1 lg:grid-cols-2">
                             <div class="p-5 md:p-8 flex flex-col justify-center lg:border-r border-b lg:border-b-0 border-[#2E2B3D] order-2 lg:order-1">
-                                <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">💬 Mensajes: Tu número es privado</h3>
-                                <p class="text-gray-400 text-sm md:text-base mb-4">Chatea con tus clientes directamente desde la plataforma (en una pantalla que parece WhatsApp). <br><br><strong>El beneficio:</strong> Si tu recepcionista falta o se va a otro lado, no se lleva los contactos ni los chats en su teléfono. Toda la comunicación y la relación con el cliente se queda en el salón de forma segura y profesional.</p>
+                                <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit"><i class="fa-regular fa-message text-purple-400 mr-2"></i> Mensajes: Comunicación blindada</h3>
+                                <p class="text-gray-400 text-sm md:text-base mb-4">
+                                    Chatea con clientes desde la plataforma. Todo queda registrado, ordenado y vinculado al perfil del cliente.
+                                    <br><br>
+                                    <strong>El beneficio:</strong> si alguien del equipo se va, no se lleva conversaciones ni contactos en su celular.
+                                    La relación con el cliente queda protegida y centralizada.
+                                </p>
                             </div>
                             <img src="https://somosvoala.com/wp-content/uploads/2026/02/6352fb13-d55a-4da7-a7b2-55ff3bd48795.png" alt="Mensajes" class="w-full h-[250px] lg:h-full object-cover object-top order-1 lg:order-2">
                         </div>
@@ -319,8 +380,14 @@
                     <div class="module-card">
                         <img src="https://somosvoala.com/wp-content/uploads/2026/02/7a3b652a-e46f-453b-81e7-75dd617c254f.png" alt="Ventas" class="w-full h-[300px] md:h-[450px] object-cover object-top border-b border-[#2E2B3D]">
                         <div class="p-5 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">💳 Ventas (La Caja): Cóbra rápido y sin errores</h3>
-                            <p class="text-gray-400 text-sm md:text-base mb-4">Una pantalla de cobro súper rápida. Agrega el corte de pelo, suma el gel que se llevó el cliente y el sistema calcula el total y las propinas en un parpadeo. Puedes vender también tarjetas de regalo (Gift Cards). <br><br><strong>El beneficio:</strong> Al cobrar aquí, la app descuenta automáticamente el gel de tu inventario y le suma la comisión al barbero. Menos uso de calculadora, menos errores de dinero al cerrar la caja.</p>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit"><i class="fa-solid fa-cash-register text-purple-400 mr-2"></i> Ventas (La Caja): Cobro rápido, control total</h3>
+                            <p class="text-gray-400 text-sm md:text-base mb-4">
+                                Cobras servicios y productos desde un solo lugar. Calcula propinas, aplica reglas definidas por la dueña y registra la venta correctamente.
+                                Incluye Gift Cards y control de pagos.
+                                <br><br>
+                                <strong>El beneficio:</strong> cuando cobras aquí, el sistema actualiza inventario y comisiones automáticamente.
+                                Se acabaron los “me faltó cobrar esto” o “me equivoqué sumando”.
+                            </p>
                         </div>
                     </div>
 
@@ -329,15 +396,22 @@
                         <div class="module-card">
                             <img src="https://somosvoala.com/wp-content/uploads/2026/02/8e1adfce-4e27-4a51-a9b4-1f9424055982.png" alt="Equipos" class="w-full h-[200px] md:h-[300px] object-cover object-top border-b border-[#2E2B3D]">
                             <div class="p-5 md:p-6">
-                                <h3 class="text-lg md:text-xl font-bold text-white mb-2 outfit">✂️ Tu Equipo y Horarios</h3>
-                                <p class="text-gray-400 text-sm">Configura la hora de entrada, salida y almuerzo de tu staff. Diles a la app qué sabe hacer cada uno (ej. "Carlos solo hace barbas") para que el sistema nunca permita que un cliente reserve un alisado con él.</p>
+                                <h3 class="text-lg md:text-xl font-bold text-white mb-2 outfit"><i class="fa-solid fa-scissors text-purple-400 mr-2"></i> Equipo y Horarios</h3>
+                                <p class="text-gray-400 text-sm">
+                                    Define disponibilidad real, descansos, turnos y habilidades por profesional.
+                                    Así el sistema evita agendar un servicio con alguien que no lo realiza o no está disponible.
+                                </p>
                             </div>
                         </div>
+
                         <div class="module-card">
                             <img src="https://somosvoala.com/wp-content/uploads/2026/02/6409bdb1-3f7b-41da-b7be-7c06235ef02c.png" alt="Tareas" class="w-full h-[200px] md:h-[300px] object-cover object-top border-b border-[#2E2B3D]">
                             <div class="p-5 md:p-6">
-                                <h3 class="text-lg md:text-xl font-bold text-white mb-2 outfit">✅ Orden y Tareas</h3>
-                                <p class="text-gray-400 text-sm">¿Toca limpiar los espejos o contar el tinte negro? Crea la tarea, pónsela a un empleado y ponle fecha. Ya no hay excusas de "se me olvidó", y tú puedes ver si lo hicieron o no.</p>
+                                <h3 class="text-lg md:text-xl font-bold text-white mb-2 outfit"><i class="fa-solid fa-list-check text-purple-400 mr-2"></i> Organización y Tareas</h3>
+                                <p class="text-gray-400 text-sm">
+                                    Crea tareas como “limpieza de estaciones”, “inventario”, “pedido de productos”.
+                                    Asigna responsables, fechas y seguimiento. Orden interno sin estar detrás de todos.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -346,39 +420,30 @@
                     <div class="module-card">
                         <img src="https://somosvoala.com/wp-content/uploads/2026/02/f388c9d3-eac9-4bdb-a3eb-1c0890be5bf6.png" alt="Servicios" class="w-full h-[250px] md:h-[350px] object-cover object-top border-b border-[#2E2B3D]">
                         <div class="p-5 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">✨ Tu Menú (Ayudado por IA)</h3>
-                            <p class="text-gray-400 text-sm md:text-base mb-4">No necesitas ser experto en marketing. Aprieta el botón de <strong>"Generar con IA"</strong> y la aplicación escribirá textos hermosos que harán que tu "Corte normal" suene como una "Experiencia VIP relajante", permitiéndote cobrar mejor por tu trabajo.</p>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit"><i class="fa-solid fa-wand-magic-sparkles text-purple-400 mr-2"></i> Tu Menú (Ayudado por IA)</h3>
+                            <p class="text-gray-400 text-sm md:text-base mb-4">
+                                Configura tus servicios con fotos, duración y precio. Si no sabes cómo redactarlos,
+                                presiona <strong>“Generar con IA”</strong> y tendrás descripciones claras y atractivas para el cliente.
+                                <br><br>
+                                <strong>El beneficio:</strong> tu menú se ve más profesional y eso eleva la percepción del salón,
+                                ayudándote a vender servicios premium.
+                            </p>
                         </div>
                     </div>
-                    
+
                     <div class="module-card">
                         <img src="https://somosvoala.com/wp-content/uploads/2026/02/fc9b2f33-da51-4181-ad6e-40d563091809.png" alt="Productos" class="w-full h-[250px] md:h-[350px] object-cover object-top border-b border-[#2E2B3D]">
                         <div class="p-5 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit">📦 Inventario Anti-Robos</h3>
-                            <p class="text-gray-400 text-sm md:text-base mb-4">Registra a qué precio compras los pomos de laca y a cuánto los vendes (solo tú ves esta ganancia). Cada vez que vendes uno en la caja, el número baja solo. Te mandaremos una alerta antes de que se acaben para que siempre tengas producto para trabajar.</p>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit"><i class="fa-solid fa-box-open text-purple-400 mr-2"></i> Inventario Anti-Pérdidas</h3>
+                            <p class="text-gray-400 text-sm md:text-base mb-4">
+                                Registra existencias, entradas y salidas. Controla costos reales (ocultos al staff), alertas por bajo inventario
+                                y movimientos ligados a ventas.
+                                <br><br>
+                                <strong>El beneficio:</strong> reduces fugas, evitas compras de último minuto y mantienes el salón preparado para atender sin interrupciones.
+                            </p>
                         </div>
                     </div>
 
-                    <!-- 8. Voala Shop -->
-                    <div class="module-card border-2 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-                        <div class="grid grid-cols-1 lg:grid-cols-2">
-                            <div class="p-5 md:p-8 flex flex-col justify-center bg-gradient-to-br from-[#12101A] to-[#2e1065] lg:border-r border-b lg:border-b-0 border-[#2E2B3D] order-2 lg:order-1">
-                                <h3 class="text-xl md:text-2xl font-bold text-white mb-2 outfit text-amber-400">🛍️ Voalá Shop (El Gran Secreto)</h3>
-                                <p class="text-gray-300 text-sm md:text-base mb-4">Queremos que ganes más dinero <strong>sin invertir en producto</strong>. Conecta tu app al catálogo oficial de Voalá. <br><br>Ofrécele tratamientos especiales a tus clientes; si te compran, <strong>Voalá se los envía directo a su casa</strong> y tú y tu estilista reciben la comisión en dinero directamente en la app. Te conviertes en distribuidor oficial a costo cero.</p>
-                            </div>
-                            <img src="https://somosvoala.com/wp-content/uploads/2026/02/706641ef-76c6-4e8d-b913-8371a5d4400d.png" alt="Voala Shop" class="w-full h-[250px] lg:h-full object-cover object-top order-1 lg:order-2">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- BOTTOM NAVIGATION -->
-                <div class="mt-16 pt-8 border-t border-[#2E2B3D] flex flex-col sm:flex-row justify-between gap-4">
-                    <button onclick="navigate('seguridad')" class="btn-nav bg-[#1E1B2E] hover:bg-[#2E2B3D] border border-[#3E3B4D] text-white font-bold py-4 px-8 rounded-full flex items-center justify-center gap-3 text-lg">
-                        <i class="fa-solid fa-arrow-left"></i> Anterior
-                    </button>
-                    <button onclick="navigate('crecimiento')" class="btn-nav bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 px-8 rounded-full flex items-center justify-center gap-3 text-lg">
-                        Siguiente: Herramientas para Crecer <i class="fa-solid fa-arrow-right"></i>
-                    </button>
                 </div>
             </section>
 
@@ -387,10 +452,12 @@
             =========================================== -->
             <section id="sec-crecimiento" class="fade-in hidden">
                 <header class="mb-8 md:mb-10 text-center">
-                    <span class="text-blue-400 text-xs font-bold tracking-[0.2em] bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">PASO 4 DE 4: NO PIERDAS CLIENTES</span>
+                    <span class="text-blue-400 text-xs font-bold tracking-[0.2em] bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">PASO 4 DE 5: NO PIERDAS CLIENTES</span>
                     <h2 class="text-3xl md:text-5xl font-bold text-white mt-4 md:mt-6 outfit leading-tight">Herramientas que trabajan por ti</h2>
                     <p class="text-gray-400 mt-4 md:mt-6 text-base md:text-xl max-w-3xl mx-auto leading-relaxed">
-                        Lo que antes solo tenían las aerolíneas o los grandes hoteles, ahora está en las manos del salón de belleza. El sistema lee tus números y te dice exactamente qué hacer para ganar más.
+                        Lo poderoso de Voalá no es solo organizar: es ayudarte a crecer.
+                        La app interpreta tu operación y te muestra oportunidades para vender más,
+                        mejorar tu agenda y recuperar clientes sin depender de “intuición”.
                     </p>
                 </header>
 
@@ -398,9 +465,15 @@
                     
                     <div class="glass-panel p-0 rounded-2xl overflow-hidden flex flex-col lg:flex-row">
                         <div class="p-6 md:p-8 lg:w-1/2 flex flex-col justify-center">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4 outfit text-blue-400">📈 Analítica: Encuentra el dinero oculto</h3>
-                            <p class="text-gray-300 text-sm md:text-base mb-4">¿Te has preguntado si es mejor hacer un tratamiento de 2 horas que cobra Q200, o cuatro cortes de 30 minutos a Q80? La app te saca ese cálculo de <strong>"Ganancia por Minuto"</strong> y te revela qué servicios son los que de verdad te hacen rico.</p>
-                            <p class="text-gray-300 text-sm md:text-base">Además, el <strong>Mapa de Calor</strong> (los cuadros morados en la foto) te pinta claramente qué días a qué horas tu salón está vacío, para que dejes de poner promociones cuando ya estás lleno.</p>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4 outfit text-blue-400"><i class="fa-solid fa-chart-line mr-2"></i> Analítica: Encuentra el dinero oculto</h3>
+                            <p class="text-gray-300 text-sm md:text-base mb-4">
+                                No todos los servicios dejan la misma ganancia. Voalá te ayuda a comparar qué te conviene más según tiempo, precio y demanda.
+                                La app calcula métricas como <strong>rentabilidad por minuto</strong> y te muestra qué te hace crecer y qué te está frenando.
+                            </p>
+                            <p class="text-gray-300 text-sm md:text-base">
+                                Además, con el <strong>Mapa de Calor</strong> podrás ver con claridad qué días y horas se vacía el salón.
+                                Así dejas de hacer promociones “a ciegas” y atacas exactamente los espacios donde sí necesitas llenar agenda.
+                            </p>
                         </div>
                         <div class="lg:w-1/2 bg-black lg:border-l border-t lg:border-t-0 border-[#2E2B3D] h-[250px] lg:h-auto">
                             <img src="https://somosvoala.com/wp-content/uploads/2026/02/2454626d-b095-4001-9f70-4f47c34ffaee.png" alt="Analítica" class="w-full h-full object-cover">
@@ -409,9 +482,15 @@
 
                     <div class="glass-panel p-0 rounded-2xl overflow-hidden flex flex-col lg:flex-row-reverse">
                         <div class="p-6 md:p-8 lg:w-1/2 flex flex-col justify-center">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4 outfit text-pink-400">🎯 Marketing: Llena las horas muertas</h3>
-                            <p class="text-gray-300 text-sm md:text-base mb-4">Si la app detectó que los martes a las 10 AM no viene nadie, te sugerirá automáticamente lanzar un "Descuento inteligente del 15%" solo para esa hora.</p>
-                            <p class="text-gray-300 text-sm md:text-base">Activa los mensajes automáticos y la app enviará recordatorios a tus clientes 24 horas antes para que no te dejen plantada, y les mandará feliz cumpleaños con un cupón de regalo. <strong>Marketing que funciona mientras tú duermes.</strong></p>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4 outfit text-pink-400"><i class="fa-solid fa-bullseye mr-2"></i> Marketing: Llena horas muertas</h3>
+                            <p class="text-gray-300 text-sm md:text-base mb-4">
+                                Si el sistema detecta que ciertos horarios se quedan vacíos, te sugiere acciones simples: descuentos por hora,
+                                paquetes inteligentes o recordatorios para reactivar clientes.
+                            </p>
+                            <p class="text-gray-300 text-sm md:text-base">
+                                Activa mensajes automáticos y Voalá enviará recordatorios (24h antes), confirmaciones y campañas como cumpleaños con cupones.
+                                <strong>Marketing que funciona en automático</strong>, para que tu energía se quede en atender y liderar.
+                            </p>
                         </div>
                         <div class="lg:w-1/2 bg-black lg:border-r border-t lg:border-t-0 border-[#2E2B3D] h-[250px] lg:h-auto">
                             <img src="https://somosvoala.com/wp-content/uploads/2026/02/f69638c0-211b-465b-9134-fdce1188a5fc.png" alt="Marketing" class="w-full h-full object-cover">
@@ -419,16 +498,111 @@
                     </div>
 
                 </div>
+            </section>
 
-                <!-- BOTTOM NAVIGATION -->
-                <div class="mt-16 pt-8 border-t border-[#2E2B3D] flex flex-col sm:flex-row justify-between gap-4">
-                    <button onclick="navigate('modulos')" class="btn-nav bg-[#1E1B2E] hover:bg-[#2E2B3D] border border-[#3E3B4D] text-white font-bold py-4 px-8 rounded-full flex items-center justify-center gap-3 text-lg">
-                        <i class="fa-solid fa-arrow-left"></i> Anterior
-                    </button>
-                    <!-- Final button just scrolls to top or could link out -->
-                    <button onclick="navigate('vision')" class="btn-nav bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-8 rounded-full flex items-center justify-center gap-3 text-lg">
-                        Volver al Inicio <i class="fa-solid fa-rotate-left"></i>
-                    </button>
+            <!-- ==========================================
+                 SECTION 5: ECOSISTEMA FUTURO (EXPANDIDO E IGUALADO)
+            =========================================== -->
+            <section id="sec-expansion" class="fade-in hidden">
+                <header class="mb-10 md:mb-14 text-center">
+                    <span class="text-amber-500 text-xs font-bold tracking-[0.2em] bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">PASO 5 DE 5: EL VERDADERO PODER DE VOALÁ</span>
+                    <h2 class="text-4xl md:text-6xl font-bold text-white mt-4 md:mt-8 outfit leading-tight">Mucho más que software:<br class="hidden md:block"> Tu Ecosistema de Crecimiento</h2>
+                    <p class="text-gray-400 mt-6 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed">
+                        Hasta aquí, Voalá te ayuda a operar con orden. Pero la visión completa va más allá: queremos que la app sea el motor que <strong>multiplique tus ingresos y profesionalice tu carrera</strong>. Al unirte a la plataforma, desbloqueas un ecosistema exclusivo diseñado para inyectar conocimiento, oportunidades de ventas y capital directo a tu salón.
+                    </p>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mt-12">
+                    
+                    <!-- 1. EDUCACIÓN (AHORA PRIMERO Y DISEÑO UNIFORME) -->
+                    <div class="md:col-span-12 premium-card rounded-3xl border border-[#2E2B3D] border-l-4 border-l-purple-500 p-8 md:p-10 flex flex-col lg:flex-row gap-8 items-start group">
+                        <div class="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl bg-purple-600 flex items-center justify-center text-3xl md:text-4xl text-white shadow-[0_0_20px_rgba(147,51,234,0.4)]">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 outfit">E-Learning: Academia Voalá Integrada</h3>
+                            <p class="text-gray-300 text-base leading-relaxed mb-6">
+                                El conocimiento es la base para cobrar mejor. Traemos toda la Academia Voalá —que antes vivía separada en una web— directamente al corazón de tu aplicación. Tú y tu equipo tendrán acceso 24/7 a masterclasses de colorimetría, administración, tendencias de corte y más.
+                            </p>
+                            <div class="bg-black/40 p-6 rounded-2xl border border-purple-500/20">
+                                <h4 class="text-white font-bold mb-3 text-lg">Beneficios directos para tu negocio:</h4>
+                                <ul class="benefit-list">
+                                    <li><strong>Sube tu ticket promedio:</strong> Al dominar técnicas avanzadas, dejas de competir por precio y empiezas a vender servicios premium.</li>
+                                    <li><strong>Retención de tu talento:</strong> Un equipo que se capacita constantemente es un equipo motivado que se queda en tu salón a largo plazo.</li>
+                                    <li><strong>Operación Inteligente:</strong> Cuando un empleado aprueba un curso técnico (ej. "Balayage"), la app desbloquea esa nueva habilidad en su perfil automáticamente, permitiéndole recibir esas citas de inmediato.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. MICROCRÉDITOS (DISEÑO UNIFORME Y SIN CIRCULO VERDE) -->
+                    <div class="md:col-span-12 premium-card rounded-3xl border border-[#2E2B3D] border-l-4 border-l-emerald-500 p-8 md:p-10 flex flex-col lg:flex-row gap-8 items-start group">
+                        <div class="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl bg-emerald-600 flex items-center justify-center text-3xl md:text-4xl text-white shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 outfit">Voalá Finanzas: Microcréditos para Crecer</h3>
+                            <p class="text-gray-300 text-base leading-relaxed mb-6">
+                                Crecer casi siempre requiere invertir: remodelar estaciones, comprar equipo de alta gama o surtirte fuertemente para la temporada de fin de año. Sabemos que los bancos son lentos y piden papeleo imposible; por eso, incluimos un módulo de financiamiento creado especialmente para nuestras asociadas.
+                            </p>
+                            <div class="bg-black/40 p-6 rounded-2xl border border-emerald-500/20">
+                                <h4 class="text-white font-bold mb-3 text-lg">¿Por qué esto cambiará tu realidad financiera?</h4>
+                                <ul class="benefit-list">
+                                    <li><strong>Cero papeleo externo:</strong> La app conoce la salud de tu negocio porque procesa tus ventas diarias. Usamos esos datos reales para ofrecerte opciones justas de financiamiento, sin pedirte historiales crediticios ajenos.</li>
+                                    <li><strong>Proceso 100% digital:</strong> Solicitas el capital, revisas tu tasa, obtienes la aprobación y haces seguimiento de tus pagos, todo desde tu panel de Voalá.</li>
+                                    <li><strong>Capital estratégico:</strong> Accede al dinero rápido para que nunca detengas el crecimiento o la expansión de tu marca por falta de liquidez.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. MARKETPLACE (DISEÑO UNIFORME) -->
+                    <div class="md:col-span-12 premium-card rounded-3xl border border-[#2E2B3D] border-l-4 border-l-amber-500 p-8 md:p-10 flex flex-col lg:flex-row gap-8 items-start group">
+                        <div class="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl bg-amber-600 flex items-center justify-center text-3xl md:text-4xl text-white shadow-[0_0_20px_rgba(245,158,11,0.4)]">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 outfit">Tu Tienda B2B y Marketplace Abierto</h3>
+                            <p class="text-gray-300 text-base leading-relaxed mb-6">
+                                Voalá te conecta con el mundo. Transformamos tu perfil de administración en un poderoso canal de distribución y ventas, permitiéndote llegar a clientes que de otra forma nunca habrían conocido tu talento.
+                            </p>
+                            <div class="bg-black/40 p-6 rounded-2xl border border-amber-500/20">
+                                <h4 class="text-white font-bold mb-3 text-lg">Beneficios para tus ingresos:</h4>
+                                <ul class="benefit-list">
+                                    <li><strong>Marketplace B2C Global:</strong> Tu salón será visible en el buscador central de Voalá. Nuevos clientes de tu zona te encontrarán y reservarán contigo al instante.</li>
+                                    <li><strong>Gana dinero sin inventario (Dropshipping):</strong> Vende los productos oficiales de Voalá a tus clientes. Tú te llevas la comisión directamente a tu billetera en la app, y Voalá central se encarga de empacar y enviar el producto a la casa del cliente.</li>
+                                    <li><strong>Compras Mayoristas B2B:</strong> Adquiere todos tus suministros profesionales para trabajar en el salón con precios preferenciales, directamente en la plataforma.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. OTROS SERVICIOS -->
+                    <div class="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                        <div class="premium-card p-6 md:p-8 rounded-2xl border border-[#2E2B3D] flex flex-col items-center text-center">
+                            <div class="w-14 h-14 bg-[#1E1B2E] rounded-full flex items-center justify-center text-2xl mb-4 text-blue-400 border border-[#3E3B4D]"><i class="fa-solid fa-crown"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2 outfit">Membresías y Puntos</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Tu buena gestión tiene premio. Acumula <em>Voalá Points</em> por ventas e interacción, y canjéalos por productos gratis, acceso a herramientas o apoyos en campañas de marketing.
+                            </p>
+                        </div>
+
+                        <div class="premium-card p-6 md:p-8 rounded-2xl border border-[#2E2B3D] flex flex-col items-center text-center">
+                            <div class="w-14 h-14 bg-[#1E1B2E] rounded-full flex items-center justify-center text-2xl mb-4 text-pink-400 border border-[#3E3B4D]"><i class="fa-solid fa-calendar-star"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2 outfit">Eventos Exclusivos</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Accede a talleres, formaciones y lanzamientos presenciales organizados por Voalá. Inscríbete en la app y recibe tus entradas digitales con recordatorios en tu calendario.
+                            </p>
+                        </div>
+
+                        <div class="premium-card p-6 md:p-8 rounded-2xl border border-[#2E2B3D] flex flex-col items-center text-center">
+                            <div class="w-14 h-14 bg-[#1E1B2E] rounded-full flex items-center justify-center text-2xl mb-4 text-indigo-400 border border-[#3E3B4D]"><i class="fa-solid fa-satellite-dish"></i></div>
+                            <h4 class="text-xl font-bold text-white mb-2 outfit">Comunicación Directa</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                El canal de conexión directa con corporativo. Entérate antes que nadie sobre tendencias, alertas clave, novedades tecnológicas y ofertas mayoristas de la industria.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -446,7 +620,6 @@
                 // Abrir menú
                 sidebar.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
-                // Pequeño retraso para la opacidad
                 setTimeout(() => {
                     overlay.classList.remove('opacity-0');
                     overlay.classList.add('opacity-100');
@@ -464,8 +637,7 @@
 
         // Manejo de la navegación fluida
         function navigate(viewName) {
-            // Esconder todas las vistas
-            const views = ['vision', 'seguridad', 'modulos', 'crecimiento'];
+            const views = ['vision', 'seguridad', 'modulos', 'crecimiento', 'expansion'];
             views.forEach(id => {
                 const sec = document.getElementById('sec-' + id);
                 const btn = document.getElementById('btn-' + id);
@@ -473,7 +645,6 @@
                 if(btn) { btn.classList.remove('nav-active'); }
             });
 
-            // Mostrar la vista clickeada
             const activeSec = document.getElementById('sec-' + viewName);
             const activeBtn = document.getElementById('btn-' + viewName);
             
@@ -485,24 +656,21 @@
                 activeBtn.classList.add('nav-active');
             }
 
-            // Cerrar menú en móvil después de navegar
-            if (window.innerWidth < 768) { // 768px es el breakpoint 'md' en Tailwind
+            if (window.innerWidth < 768) { 
                 const sidebar = document.getElementById('sidebar');
                 if (!sidebar.classList.contains('-translate-x-full')) {
                     toggleMenu();
                 }
             }
 
-            // Scroll hacia arriba al cambiar de pestaña SUAVEMENTE
             document.getElementById('main-content').scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Re-render chart if vision is opened
             if(viewName === 'vision') {
                 setTimeout(renderEcoChart, 100);
             }
         }
 
-        // Gráfico de Ejemplo (Muy visual y simple)
+        // Gráfico de Ecosistema
         let ecoChartInstance = null;
         function renderEcoChart() {
             const ctx = document.getElementById('ecoChart');
@@ -510,33 +678,41 @@
             
             if(ecoChartInstance) ecoChartInstance.destroy();
 
-            // Configurar el tamaño de la fuente de la leyenda según el tamaño de la pantalla
             const isMobile = window.innerWidth < 768;
             const legendFontSize = isMobile ? 11 : 13;
 
             ecoChartInstance = new Chart(ctx, {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
-                    labels: ['Gestión del Salón (Agenda, Caja)', 'Aumento de Ventas (Marketing, CRM)', 'Educación y Compras (Academia, Tienda)'],
+                    labels: [
+                        'Gestión Operativa (Caja, Agenda)', 
+                        'E-Learning Integrado',
+                        'Finanzas & Microcréditos', 
+                        'Marketplace & Compras',
+                        'Marketing & CRM'
+                    ],
                     datasets: [{
-                        data: [45, 30, 25],
+                        data: [25, 15, 20, 20, 20],
                         backgroundColor: [
                             '#8B5CF6', // Purple
-                            '#F59E0B', // Amber
-                            '#10B981'  // Emerald
+                            '#3B82F6', // Blue (E-learning)
+                            '#10B981', // Emerald (Microcreditos)
+                            '#F59E0B', // Amber (Marketplace)
+                            '#F472B6'  // Pink (Marketing)
                         ],
                         borderWidth: 2,
                         borderColor: '#151321',
-                        hoverOffset: 10
+                        hoverOffset: 15
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: '60%',
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: { color: '#E2E8F0', font: { family: 'Plus Jakarta Sans', size: legendFontSize }, padding: 15 }
+                            labels: { color: '#E2E8F0', font: { family: 'Plus Jakarta Sans', size: legendFontSize }, padding: 10 }
                         },
                         tooltip: {
                             backgroundColor: 'rgba(12, 10, 20, 0.95)',
@@ -546,7 +722,7 @@
                             borderColor: '#8B5CF6',
                             borderWidth: 1,
                             callbacks: {
-                                label: function(context) { return ' ' + context.label + ': ' + context.parsed + '% de tu éxito'; }
+                                label: function(context) { return ' ' + context.label; }
                             }
                         }
                     }
@@ -554,14 +730,10 @@
             });
         }
 
-        // Init
         document.addEventListener('DOMContentLoaded', () => {
             renderEcoChart();
-            
-            // Re-render chart on window resize to adjust legend font size
             window.addEventListener('resize', () => {
                 if(document.getElementById('sec-vision').classList.contains('block') || !document.getElementById('sec-vision').classList.contains('hidden')) {
-                    // Solo renderizar si la gráfica es visible para evitar problemas de rendimiento
                     clearTimeout(window.resizeTimer);
                     window.resizeTimer = setTimeout(renderEcoChart, 200);
                 }
